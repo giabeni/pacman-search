@@ -277,40 +277,38 @@ def nullHeuristic(state, problem=None):
     return 0
 
 
-def aStarSearchBACKUP(problem, heuristic=nullHeuristic):
-  """Search the node that has the lowest combined cost and heuristic first."""
-  "*** YOUR CODE HERE ***"
-  print "Start:", problem.getStartState()
-  print "Is the start a goal?", problem.isGoalState(problem.getStartState())
-  print "Start's successors:", problem.getSuccessors(problem.getStartState())
-  from util import PriorityQueue
+# def aStarSearchBACKUP(problem, heuristic=nullHeuristic):
+#   """Search the node that has the lowest combined cost and heuristic first."""
+#   "*** YOUR CODE HERE ***"
+#   print "Start:", problem.getStartState()
+#   print "Is the start a goal?", problem.isGoalState(problem.getStartState())
+#   print "Start's successors:", problem.getSuccessors(problem.getStartState())
+#   from util import PriorityQueue
 
-  w, h = 1024, 1024;
-  expanded = [[0 for x in range(w)] for y in range(h)] 
-  path = []
-  solution = []
-  fringe = PriorityQueue()
-  action = 'Start'
+#   w, h = 1024, 1024;
+#   expanded = [[0 for x in range(w)] for y in range(h)] 
+#   path = []
+#   solution = []
+#   fringe = PriorityQueue()
+#   action = 'Start'
 
-  print '\n\nStarting search...........................'
+#   print '\n\nStarting search...........................'
   
-  search = aStarPreview(path, solution, fringe, 0, problem.getStartState(), action, expanded, problem, heuristic, 0)
+#   search = aStarPreview(path, solution, fringe, 0, problem.getStartState(), action, expanded, problem, heuristic, 0)
 
-  print '\n\n****************************************\n'
-  print search
-  path = search[0]
-  solution = search[1]
-  solution.remove('Start')
+#   print '\n\n****************************************\n'
+#   print search
+#   path = search[0]
+#   solution = search[1]
+#   solution.remove('Start')
 
-  print '\n\n SOLUTION is = ', solution, '\n\n\n'
-  return solution
+#   print '\n\n SOLUTION is = ', solution, '\n\n\n'
+#   return solution
 
 
 def aStarSearch(problem, heuristic=nullHeuristic):
   """Search the node that has the lowest combined cost and heuristic first."""
-  print "Start:", problem.getStartState()
-  print "Is the start a goal?", problem.isGoalState(problem.getStartState())
-  print "Start's successors:", problem.getSuccessors(problem.getStartState())
+
   from util import PriorityQueue, FringeItem
 
   # pre allocates a fixed sized square matrix to store which nodes were expanded
@@ -363,25 +361,25 @@ def expandNode(currentItem, fringe, expandedMatrix, problem, heuristic, count, d
   count = count + 1
 
   # starting expansion of node...
-  print "\n\n___________", count, "_________________"
-  print "\n\nnode = ", currentItem.node
-  print "currentFringe = ", fringe.heap
+                                                                                              # print "\n\n___________", count, "_________________"
+                                                                                              # print "\n\nnode = ", currentItem.node
+                                                                                              # print "currentFringe = ", fringe.heap
 
   # sets current node as visited in the matrix control
   expandedMatrix = currentItem.setExpanded(expandedMatrix)
-  print "expanded", expandedMatrix[currentItem.node[0]][currentItem.node[1]]
+                                                                                              # print "expanded", expandedMatrix[currentItem.node[0]][currentItem.node[1]]
 
   # if this node is the goal, returns the currentItem, which carries the actions of sequence to reach the fruit 
   if problem.isGoalState(currentItem.node):
-    print "IS GOAL STATE!"
+                                                                                              # print "IS GOAL STATE!"
     return currentItem
   
   # if node is not the goal
   else:
-    print "is not goal state..."
+                                                                                              # print "is not goal state..."
     # gets all possible children
     children = problem.getSuccessors(currentItem.node)
-    print "children = ", children
+                                                                                              # print "children = ", children
     # for each children
     for child in children:
       x = int(child[0][0])
@@ -390,7 +388,7 @@ def expandNode(currentItem, fringe, expandedMatrix, problem, heuristic, count, d
       
       # creates the object to carry and store the data of the child
       childItem = FringeItem((x, y), currentItem.pathToNode + [(x, y)], currentItem.actionsToNode + [getDirectionFromAction(child[1])], h)
-      print "\tchecking child ", childItem.node, "f(n) = ", childItem.f()
+                                                                                                # print "\tchecking child ", childItem.node, "f(n) = ", childItem.f()
 
       # only add the child to the fringe if it hasn't been visited
       if (expandedMatrix[x][y] != True):
@@ -398,13 +396,13 @@ def expandNode(currentItem, fringe, expandedMatrix, problem, heuristic, count, d
 
     # if fringe is empty and we haven't reached the goal, it is a DEADEND
     if (fringe.isEmpty()):
-      print "DEADEND"
+                                                                                                # print "DEADEND"
       return 'DEADEND'
 
     # gets the next node to expand (lower priority of the fringe)
     nextItem = fringe.pop()
-    print "next item = ", nextItem.node
-    print "newFringe = ", fringe.heap
+                                                                                                # print "next item = ", nextItem.node
+                                                                                                # print "newFringe = ", fringe.heap
 
     # expands the nextItem
     return expandNode(nextItem, fringe, expandedMatrix, problem, heuristic, count, debug)
@@ -413,73 +411,73 @@ def expandNode(currentItem, fringe, expandedMatrix, problem, heuristic, count, d
 
 
 
-def aStarPreview(path, solution, fringe, currentCost, node, action, expandedMatrix, problem, heuristic, count, debug = False):
-  # debug only, paginates output text
-  if debug and count % 200 == 0:
-    raw_input("Press Enter to continue...")
+# def aStarPreview(path, solution, fringe, currentCost, node, action, expandedMatrix, problem, heuristic, count, debug = False):
+#   # debug only, paginates output text
+#   if debug and count % 200 == 0:
+#     raw_input("Press Enter to continue...")
   
-  # to avoid infinite recurssion 
-  if count > 2e12:
-    return 'STACK_OVERFLOW'
-  count = count + 1
+#   # to avoid infinite recurssion 
+#   if count > 2e12:
+#     return 'STACK_OVERFLOW'
+#   count = count + 1
 
-  # starting expansion of node...
-  print "\n\npath = ", path, " node = ", node
+#   # starting expansion of node...
+#   print "\n\npath = ", path, " node = ", node
 
-  # sets current node as visited in the matrix control
-  expandedMatrix[int(node[0])][int(node[1])] = True
+#   # sets current node as visited in the matrix control
+#   expandedMatrix[int(node[0])][int(node[1])] = True
 
-  # checks if node is the fruit
-  if problem.isGoalState(node):
-    print "\t!!!!!!FOUND GOAL!!!!!!!!"
-    # if it is the fruit, returns the tuple, adding the node to the PATH, the action to SOLUTION and the current cost
-    return ([node] + path, [action] + solution, currentCost)
-  else:
-    # if it not the fruit...
-    unvisited = getUnvisitedChildrenPriorityQueue(node, expandedMatrix, problem, heuristic, currentCost)
-    print "\tunvisited = ", unvisited.heap
+#   # checks if node is the fruit
+#   if problem.isGoalState(node):
+#     print "\t!!!!!!FOUND GOAL!!!!!!!!"
+#     # if it is the fruit, returns the tuple, adding the node to the PATH, the action to SOLUTION and the current cost
+#     return ([node] + path, [action] + solution, currentCost)
+#   else:
+#     # if it not the fruit...
+#     unvisited = getUnvisitedChildrenPriorityQueue(node, expandedMatrix, problem, heuristic, currentCost)
+#     print "\tunvisited = ", unvisited.heap
 
-    if (unvisited.isEmpty()):
-      print "\tThere's no unvisited....Rollback"
-      return 'DEADEND'
-    else:
-      while not(unvisited.isEmpty()):
-        child = unvisited.pop()
-        childCost = child[2]
-        print "\t\tvisiting child = ", child
+#     if (unvisited.isEmpty()):
+#       print "\tThere's no unvisited....Rollback"
+#       return 'DEADEND'
+#     else:
+#       while not(unvisited.isEmpty()):
+#         child = unvisited.pop()
+#         childCost = child[2]
+#         print "\t\tvisiting child = ", child
         
-        search = aStarPreview(path, solution, currentCost + childCost, child[0], getDirectionFromAction(child[1]), expandedMatrix, problem, heuristic, count, debug)
-        if search == 'STACK_OVERFLOW':
-          print "STACK OVERFLOW, count = ", count
-        elif search != 'DEADEND':
-          print "\t\t\t child is NOT dead end: ", node, " -> ", child[0], "   child cost = ", childCost
-          return ([node] + search[0] + path, [action] + search[1] + solution, currentCost + childCost)
-        else:
-          print "\t\t\t child leads to DEADEND ", node, " -> ", child[0]
-      print "\t\t ALL CHILDS ARE DEADEND - ", node
-      return 'DEADEND'
+#         search = aStarPreview(path, solution, currentCost + childCost, child[0], getDirectionFromAction(child[1]), expandedMatrix, problem, heuristic, count, debug)
+#         if search == 'STACK_OVERFLOW':
+#           print "STACK OVERFLOW, count = ", count
+#         elif search != 'DEADEND':
+#           print "\t\t\t child is NOT dead end: ", node, " -> ", child[0], "   child cost = ", childCost
+#           return ([node] + search[0] + path, [action] + search[1] + solution, currentCost + childCost)
+#         else:
+#           print "\t\t\t child leads to DEADEND ", node, " -> ", child[0]
+#       print "\t\t ALL CHILDS ARE DEADEND - ", node
+#       return 'DEADEND'
 
 
-def getUnvisitedChildrenPriorityQueue(node, expandedMatrix, problem, heuristic, currentCost):
-  from util import PriorityQueue
-  children = problem.getSuccessors(node)
+# def getUnvisitedChildrenPriorityQueue(node, expandedMatrix, problem, heuristic, currentCost):
+#   from util import PriorityQueue
+#   children = problem.getSuccessors(node)
 
-  print '\t\tcurrent cost = ', currentCost
-  if len(children) == 0:
-    return [];
+#   print '\t\tcurrent cost = ', currentCost
+#   if len(children) == 0:
+#     return [];
 
-  unvisited = PriorityQueue()
+#   unvisited = PriorityQueue()
 
-  for child in children:
-    x = int(child[0][0])
-    y = int(child[0][1])
-    f = currentCost + child[2] + heuristic((x,y), problem) # f(n) = g(n) + h(n)
+#   for child in children:
+#     x = int(child[0][0])
+#     y = int(child[0][1])
+#     f = currentCost + child[2] + heuristic((x,y), problem) # f(n) = g(n) + h(n)
 
-    if (expandedMatrix[x][y] != True):
-      print '\t\tchild ', child[0], '  h(n) =',  heuristic((x,y), problem), ' + g(n) = ', child[2], ' =>  f(n) = ', f
-      unvisited.push(child, f)
+#     if (expandedMatrix[x][y] != True):
+#       print '\t\tchild ', child[0], '  h(n) =',  heuristic((x,y), problem), ' + g(n) = ', child[2], ' =>  f(n) = ', f
+#       unvisited.push(child, f)
     
-  return unvisited
+#   return unvisited
 
 
 # Abbreviations
