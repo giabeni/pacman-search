@@ -182,6 +182,12 @@ class PriorityQueue:
         self.heap = []
         self.count = 0
 
+    def __str__(self):
+      return str(self.heap)
+
+    def __repr__(self):
+      return self.__str__()
+
     def push(self, item, priority):
         entry = (priority, self.count, item)
         heapq.heappush(self.heap, entry)
@@ -208,6 +214,7 @@ class PriorityQueue:
                 break
         else:
             self.push(item, priority)
+
 
 class PriorityQueueWithFunction(PriorityQueue):
     """
@@ -674,4 +681,46 @@ def unmutePrint():
 
     sys.stdout = _ORIGINAL_STDOUT
     #sys.stderr = _ORIGINAL_STDERR
+
+
+
+class FringeItem:
+
+  def __init__(self, node, pathToNode, actionsToNode, h):
+    self.node = node
+    self.pathToNode = pathToNode
+    self.actionsToNode = actionsToNode
+    self.h = h
+
+  # for comparision between two FringeItems
+  def __eq__(self, other):
+    if isinstance(self, basestring) and isinstance(other, basestring):
+      return self == other;
+    elif isinstance(self, FringeItem) and isinstance(other, FringeItem):    
+      return self.node == other.node
+    else:
+      return False
+    
+  # for comparision between two FringeItems
+  def __ne__(self, other):
+    return not(self == other)
+
+  def __str__(self):
+    return "(" + str(self.node[0]) + ", " + str(self.node[1]) + ")"
+
+  def __repr__(self):
+    return self.__str__()
+
+  # sets node as expanded in the global matrix
+  def setExpanded(self, matrix):
+    matrix[self.node[0]][self.node[1]] = True
+    return matrix
+
+  # returns the estimated cost
+  def f(self):
+    return self.h + self.pathCost()
+
+  # returns the path cost. Each node in the path transition has cost 1.
+  def pathCost(self):
+    return len(self.pathToNode)
 
